@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Our Love Story 💖</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+/* ---------- GLOBAL ---------- */
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+body{overflow:hidden;background:black;color:white;}
+
+/* ---------- SECTION ---------- */
+.section{position:absolute;width:100%;height:100vh;display:flex;justify-content:center;align-items:center;flex-direction:column;opacity:0;transform:scale(1.1);transition:all 1.5s ease;}
+.section.active{opacity:1;transform:scale(1);z-index:2;}
+
+/* ---------- INTRO ---------- */
+#intro{background:linear-gradient(135deg,#ff4d6d,#ff8fab);}
+.title{font-size:50px;animation:fadeIn 3s ease forwards;opacity:0;}
+@keyframes fadeIn{to{opacity:1;}}
+.enterBtn{margin-top:40px;padding:15px 40px;background:white;color:#ff1e56;border:none;border-radius:40px;font-size:18px;cursor:pointer;}
+
+/* ---------- STAR SKY ---------- */
+#starScene{background:black;overflow:hidden;position:relative;}
+.star{position:absolute;width:2px;height:2px;background:white;animation:twinkle 2s infinite alternate;}
+@keyframes twinkle{from{opacity:0.3;}to{opacity:1;}}
+button{padding:12px 30px;margin:10px;border:none;border-radius:30px;cursor:pointer;font-size:18px;}
+.yes{background:#ff1e56;color:white;}
+.no{background:white;color:#ff1e56;position:absolute;}
+
+/* ---------- GIFT ---------- */
+#giftSection{background:#ff4d6d;display:flex;justify-content:center;align-items:center;position:relative;min-height:100vh;}
+#giftContainer{position:relative;width:200px;height:200px;cursor:pointer;z-index:10;}
+#giftBox{position:absolute;bottom:0;width:200px;height:150px;background:#ff1e56;border-radius:15px;box-shadow:0 10px 30px rgba(0,0,0,0.3);z-index:1;}
+#giftLid{position:absolute;top:0;width:200px;height:50px;background:#ff4d6d;border-radius:15px 15px 0 0;transform-origin:top center;z-index:2;}
+.particle{position:absolute;width:6px;height:6px;border-radius:50%;pointer-events:none;}
+
+/* ---------- FLOATING HEARTS ---------- */
+.heart{position:absolute;font-size:24px;animation:floatHeart linear infinite;pointer-events:none;}
+@keyframes floatHeart{0%{transform:translateY(100vh) scale(1);}100%{transform:translateY(-50px) scale(1.5);}}
+
+/* ---------- ANIMATED GIFS ---------- */
+.animatedGif{position:absolute;width:80px;height:80px;z-index:5;pointer-events:none;}
+
+/* ---------- LETTER ---------- */
+#letterSection{background:#fff0f3;color:#ff1e56;padding:40px;text-align:center;}
+.letterBox{background:white;padding:40px;max-width:700px;border-radius:20px;box-shadow:0 10px 40px rgba(0,0,0,0.3);}
+.checkbox{margin-top:20px;font-size:18px;}
+</style>
+</head>
+<body>
+
+<!-- MUSIC -->
+<audio id="bgMusic" loop>
+<source src="music.mp3" type="audio/mp3">
+</audio>
+
+<!-- 1️⃣ INTRO -->
+<div class="section active" id="intro">
+<h1 class="title">A Love Story by Sporsho 💖</h1>
+<button class="enterBtn" onclick="startExperience()">Enter</button>
+</div>
+
+<!-- 2️⃣ STAR SCENE -->
+<div class="section" id="starScene">
+<h1>Will You Be My Valentine? 💘</h1>
+<div style="font-size:80px; display:none;" id="penguins">🐧💋🐧</div>
+<button class="yes" onclick="yesClicked()">Yes 💖</button>
+<button class="no" id="noBtn">No 😤</button>
+</div>
+
+<!-- 3️⃣ GIFT -->
+<div class="section" id="giftSection">
+  <div id="giftContainer">
+    <div id="giftBox"></div>
+    <div id="giftLid"></div>
+  </div>
+</div>
+
+<!-- 4️⃣ LETTER -->
+<div class="section" id="letterSection">
+<div class="letterBox">
+<h2>My Forever Letter 💌</h2>
+<p id="letterText"></p>
+<h3>My Promises 💍</h3>
+<ul>
+<li>I promise to listen better.</li>
+<li>I promise to protect your heart.</li>
+<li>I promise to choose you every day.</li>
+</ul>
+<div class="checkbox">
+Will you forever love me? 💖<br>
+<input type="checkbox" onclick="finishExperience()"> Yes ✔
+<input type="checkbox" onclick="finishExperience()"> Yes ✔
+</div>
+</div>
+</div>
+
+<script>
+/* MUSIC FADE IN */
+const music=document.getElementById("bgMusic");
+function startExperience(){
+  music.volume=0;
+  music.play();
+  let fade=setInterval(()=>{
+    if(music.volume<1){ music.volume+=0.02; } else { clearInterval(fade); }
+  },200);
+  switchSection("starScene");
+}
+
+/* SECTION SWITCH */
+function switchSection(id){
+  document.querySelectorAll(".section").forEach(sec=>{ sec.classList.remove("active"); });
+  setTimeout(()=>{ document.getElementById(id).classList.add("active"); },500);
+}
+
+/* STARS */
+for(let i=0;i<150;i++){
+  const star=document.createElement("div");
+  star.className="star";
+  star.style.top=Math.random()*100+"vh";
+  star.style.left=Math.random()*100+"vw";
+  star.style.animationDuration=Math.random()*2+1+"s";
+  document.getElementById("starScene").appendChild(star);
+}
+
+/* NO BUTTON RUN */
+const noBtn=document.getElementById("noBtn");
+noBtn.addEventListener("mouseenter",()=>{
+  noBtn.style.top=Math.random()*80+"%";
+  noBtn.style.left=Math.random()*80+"%";
+});
+
+/* YES CLICK */
+function yesClicked(){
+  document.getElementById("penguins").style.display="block";
+  setTimeout(()=>{ switchSection("giftSection"); },1500);
+}
+
+/* GIFT + CINEMATIC FIREWORKS + GIFS + HEARTS */
+function explodeGift(){
+  const lid=document.getElementById("giftLid");
+  const giftSection=document.getElementById("giftSection");
+
+  // lid opens
+  lid.animate([{ transform: 'rotateX(0deg)' }, { transform: 'rotateX(-120deg)' }], { duration: 900, easing: 'ease-out', fill: 'forwards' });
+
+  // add floating hearts
+  for(let i=0;i<20;i++){
+    const heart=document.createElement("div");
+    heart.className="heart";
+    heart.innerHTML="❤️";
+    heart.style.left=Math.random()*90+"%";
+    heart.style.animationDuration=(5+Math.random()*5)+"s";
+    giftSection.appendChild(heart);
+    setTimeout(()=>heart.remove(),10000);
+  }
+
+  // add animated GIFs
+  for(let i=0;i<2;i++){
+    const gif=document.createElement("img");
+    gif.src=i==0?"bear.gif":"penguin.gif"; // replace with your GIFs
+    gif.className="animatedGif";
+    gif.style.left=Math.random()*80+"%";
+    gif.style.top=Math.random()*60+"%";
+    giftSection.appendChild(gif);
+    setTimeout(()=>gif.remove(),12000);
+  }
+
+  // Fireworks
+  setTimeout(()=>{
+    for(let i=0;i<150;i++){
+      const particle=document.createElement("div");
+      particle.className="particle";
+      particle.style.background=`hsl(${Math.random()*360},100%,50%)`;
+      particle.style.boxShadow=`0 0 12px ${particle.style.background}`;
+      particle.style.width="6px";
+      particle.style.height="6px";
+      particle.style.borderRadius="50%";
+      particle.style.position="absolute";
+      particle.style.left="50%";
+      particle.style.top="50%";
+      particle.style.transform="translate(-50%,-50%)";
+      giftSection.appendChild(particle);
+      const angle=Math.random()*2*Math.PI;
+      const velocity=Math.random()*500+100;
+      particle.animate([
+        { transform:"translate(-50%,-50%) scale(1)", opacity:1 },
+        { transform:`translate(${Math.cos(angle)*velocity}px, ${Math.sin(angle)*velocity}px) scale(0.5)`, opacity:0 }
+      ], { duration:2000, easing:"ease-out", fill:"forwards" });
+      setTimeout(()=>particle.remove(),2000);
+    }
+
+    // switch to letter
+    setTimeout(()=>{ switchSection("letterSection"); typeLetter(); },2000);
+  },1000);
+}
+
+// bind gift click
+document.getElementById("giftContainer").addEventListener("click", explodeGift);
+
+/* LETTER TYPE */
+function typeLetter(){
+  const text=`My Love ❤️,
+
+The day I met you… I found my home.
+Every laugh, every fight, every “I love you”… made me yours.
+
+You are my heart, my smile, my forever. 💖`;
+  let i=0;
+  const target=document.getElementById("letterText");
+  target.innerHTML="";
+  let typing=setInterval(()=>{
+    target.innerHTML+=text.charAt(i);
+    i++;
+    if(i>=text.length) clearInterval(typing);
+  },40);
+}
+
+function finishExperience(){
+  alert("Forever starts now! 💖✨");
+}
+</script>
+</body>
+</html>
